@@ -17,10 +17,11 @@ Including another URLconf
 #The first two lines import the functions and modules that manage URLs for the project and admin site 
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    url(r'', include('learning_logs.url', namespace = 'learning_logs')),
+    url(r'^admin/', admin.site.urls),
+    url(r'', include(('learning_logs.urls', 'learning_logs'), namespace = 'learning_logs')),
 ]
 
 
