@@ -35,6 +35,8 @@ class Entry(models.Model):
 	
 	def __str__(self):
 		'''return a string representation of the module'''
-		return self.text[:50] + "..." 
-		
+		if self.text[50:]:
+			return self.text[:50]+'...'
+		else:
+			return self.text
 	
