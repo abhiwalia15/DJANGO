@@ -6,7 +6,7 @@ the reader back to the topics page after they submit their topic.
 The reverse() function determines the URL from a named URL pattern, 
 meaning that Django will generate the URL when the page is requested.'''
 from django.http import HttpResponseRedirect
-from django.core.urlresolve import reverse
+from django.urls import reverse
 from .forms import TopicForm
 
 '''A view function takes in information from a request, prepares the data 
