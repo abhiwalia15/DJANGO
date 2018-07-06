@@ -1,6 +1,14 @@
 from django.shortcuts import render
 from .models import Topic
 
+'''We import the class HttpResponseRedirect, which we’ll use to redirect 
+the reader back to the topics page after they submit their topic. 
+The reverse() function determines the URL from a named URL pattern, 
+meaning that Django will generate the URL when the page is requested.'''
+from django.http import HttpResponseRedirect
+from django.core.urlresolve import reverse
+from .forms import TopicForm
+
 '''A view function takes in information from a request, prepares the data 
 needed to generate a page, and then sends the data back to the browser, 
 often by using a template that defines what the page will look like.'''
@@ -26,3 +34,21 @@ def topic(request, topic_id):
 	entries = topic.entry_set.order_by('-date_added')
 	context = {'topic': topic, 'entries': entries}
 	return render(request, 'learning_logs/topic.html', context)
+
+def new_topic(request):
+	'''add a new topic'''
+	if request.method != 'POST':
+		#no data is submitted; create a blank form.
+		form = TopicForm()
+		
+	else:
+		#post data submitted; process data.
+		form = TopicForm(request.POST)
+	
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(reverse('learning_logs:topics'))
+		
+	context = { 'form':form }
+	return render(request, 'learning_logs/new_topic.html', context)
+		
