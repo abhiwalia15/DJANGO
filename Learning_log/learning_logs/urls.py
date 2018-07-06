@@ -17,6 +17,9 @@ urlpatterns = [
 		url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name='topic'),
 		#page for adding a new topic.
 		url(r'^new_topic/$', views.new_topic, name='new_topic'),
+		#page for adding a new entry.
+		#The code (?P<topic_id>\d+) captures a numerical value and stores it in the variable topic_id
+		url(r'^new_entry/(?p<topic_id>\d+)$', views.new_entry, name = 'new_entry')
 	]
 	
 
