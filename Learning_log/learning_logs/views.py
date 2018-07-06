@@ -19,9 +19,10 @@ def topics(request):
 The function accepts the value captured by the 
 expression (?P<topic_id>\d+) and stores it in topic_id'''
 
-def topic(requests, topic_id):
+def topic(request, topic_id):
 	'''show a single topic and all its entries'''
 	topic = Topic.objects.get(id = topic_id)
 	#the minus sign infront of the date_added sorts the result in reverse order, which will display the most recent entries first.
 	entries = topic.entry_set.order_by('-date_added')
+	context = {'topic': topic, 'entries': entries}
 	return render(request, 'learning_logs/topic.html', context)
