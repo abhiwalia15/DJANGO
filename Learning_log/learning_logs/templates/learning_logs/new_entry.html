@@ -1,8 +1,7 @@
 {% extends 'learning_logs/base.html' %}
 
 {% block content %}
- 
-  <p><a href = "{% url'learning_logs:topic' topic.id %}">
+  <p><a href ="{% url 'learning_logs:topic' topic.id %}">
   {{topic}}
   </a></p>
   <p>ADD A NEW ENTRY:</p>
