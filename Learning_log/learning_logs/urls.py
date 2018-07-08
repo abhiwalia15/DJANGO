@@ -20,6 +20,8 @@ urlpatterns = [
 		#page for adding a new entry.
 		#The code (?P<topic_id>\d+) captures a numerical value and stores it in the variable topic_id
 		url(r'^new_entry/(?P<topic_id>\d+)/$', views.new_entry, name='new_entry'),
+		#page for editing an entry.
+		url(r'^edit_entry(?P<entry_id>\d+)/$', views.edit_entry, name='edit_entry'),
 	]
 	
 
