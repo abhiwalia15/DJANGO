@@ -6,16 +6,16 @@
 	
 	<p>YOUR USERNAME AND PASSWORD DID NOT MATCH. PLEASE TRY AGAIN.</p>
 	
-	{% endif %}
+{% endif %}
 	
-	<form method = 'post' action = "{% url'users:login' %}">
+	<form method = "post" action = "{% url 'users:login' %}">
 	
 	{% csrf_token %}
-	{{form.as_p}}
+	{{ form.as_p }}
 	
-	<button name = 'submit'>LOG IN</button>
+	<button name = "submit"> LOG IN </button>
 	
-	<input type='hidden' name='next' value="{% url'learning_logs:index' %}"/>
+	<input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
 	
 	</form>
 	

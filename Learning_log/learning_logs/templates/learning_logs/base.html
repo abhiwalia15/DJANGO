@@ -1,9 +1,9 @@
 <p>
   <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
-  <a href="{% url 'learning_logs:topic' %}">Topics</a> -
+  <a href="{% url 'learning_logs:topics' %}">Topics</a> -  
   
-  {% if users.is_authenticated %}
-    HELLO, {{user.username}}
+  {% if user.is_authenticated %}
+    HELLO, {{ user.username }}.
   
   {% else %}
     <a href = "{% url 'users:login' %}">log in</a>
