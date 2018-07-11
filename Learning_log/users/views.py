@@ -27,7 +27,7 @@ def register(request):
 			#after saving the info. log the user in and redirect to the home page.
 			#Here we get the value associated with the 'password1' key in the form’s POST data.
 			authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
-			login(request, authenticated_users)
+			login(request, authenticated_user)
 			return HttpResponseRedirect(reverse('learning_logs:index'))
 			
 	context = {'form':form}
