@@ -89,6 +89,10 @@ def edit_entry(request, entry_id):
 	entry = Entry.objects.get(id=entry_id)
 	topic = entry.topic
 	
+	#PROTECT THE EDIT ENTRY.
+	if topic.owner != request.user:
+		raise Http404
+	
 	if request.method != 'POST':
 		#initial request; pre-fill form with the current entry.
 		form = EntryForm(instance=entry)
