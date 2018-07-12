@@ -14,7 +14,7 @@ class Topic(models.Model):
 	#data that will record a date and time
 	date_added = models.DateTimeField(auto_now_add = True)
 	#add an owner field to Topic, which establishes a foreign key relationship to the User model
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey('User', on_delete=models.PROTECT)
 	
 	def __str__(self):
 		"""Return a string representation of the model."""
