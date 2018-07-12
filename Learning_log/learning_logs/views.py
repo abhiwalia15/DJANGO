@@ -8,6 +8,7 @@ meaning that Django will generate the URL when the page is requested.'''
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import TopicForm, EntryForm
+from django.contrib.auth.decorators import login_required
 
 '''A view function takes in information from a request, prepares the data 
 needed to generate a page, and then sends the data back to the browser, 
@@ -17,6 +18,7 @@ def index(request):
 	'''the home page for learning logs'''
 	return render(request, 'learning_logs/index.html')
 
+@login_required
 def topics(request):
 	'''show all topics'''
 	topics = Topic.objects.order_by('date_added')
