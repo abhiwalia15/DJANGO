@@ -123,8 +123,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #My settings
+LOGIN_URL = '/users/login/'
 #Now when an unauthenticated user requests a page protected by the @login_required
 #decorator, Django will send the user to the URL defined by LOGIN_URL 
-LOGIN_URL = '/users/login/'
 
 
