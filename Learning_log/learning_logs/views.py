@@ -1,71 +1,46 @@
 from django.shortcuts import render
-from .models import Topic, Entry
-
-'''We import the class HttpResponseRedirect, which we’ll use to redirect 
-the reader back to the topics page after they submit their topic. 
-The reverse() function determines the URL from a named URL pattern, 
-meaning that Django will generate the URL when the page is requested.'''
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import TopicForm, EntryForm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, Http404
 
-'''A view function takes in information from a request, prepares the data 
-needed to generate a page, and then sends the data back to the browser, 
-often by using a template that defines what the page will look like.'''
+
+from .models import Topic, Entry
+from .forms import TopicForm, EntryForm
+# Create your views here.
 
 def index(request):
-	'''the home page for learning logs'''
-	return render(request, 'learning_logs/index.html')
-
-@login_required
+    """The home page for Learning Log."""
+    return render(request, 'learning_logs/index.html')
+    
 def topics(request):
-	'''show all topics'''
-	
-	topics = Topic.objects.filter(owner = request.user).order_by('date_added')
-	context = {'topics':topics}
-	return render(request, 'learning_logs/topics.html', context)
-
-'''This is the first view function that requires a parameter other than the request object
-The function accepts the value captured by the 
-expression (?P<topic_id>\d+) and stores it in topic_id'''
-
-@login_required
+    """Show all topics."""
+    topics = Topic.objects.order_by('date_added')
+    context = {'topics': topics}
+    return render(request, 'learning_logs/topics.html', context)
+    
 def topic(request, topic_id):
-	'''show a single topic and all its entries'''
-	topic = Topic.objects.get(id = topic_id)
-	# Make sure the topic belongs to the current user.     
-	if topic.owner != request.user:
-		raise Http404
-		
-	#the minus sign infront of the date_added sorts the result in reverse order,
-	#which will display the most recent entries first.
-	entries = topic.entry_set.order_by('-date_added')
-	context = {'topic': topic, 'entries': entries}
-	return render(request, 'learning_logs/topic.html', context)
-
-@login_required
+    """Show a single topic, and all its entries."""
+    topic = Topic.objects.get(id=topic_id)
+    entries = topic.entry_set.order_by('-date_added')
+    context = {'topic': topic, 'entries': entries}
+    return render(request, 'learning_logs/topic.html', context)
+    
 def new_topic(request):
-	'''add a new topic'''
-	if request.method != 'POST':
-		#no data is submitted; create a blank form.
-		form = TopicForm()
-		
-	else:
-		#post data submitted; process data.
-		form = TopicForm(request.POST)
-	
-	if form.is_valid():
-		new_topic = form.save(commit=False)
-		new_topic.owner = request.user
-		new_topic.save()
-		return HttpResponseRedirect(reverse('learning_logs:topics'))
-		
-	context = { 'form':form }
-	return render(request, 'learning_logs/new_topic.html', context)
+    """Add a new topic."""
+    if request.method != 'POST':
+        # No data submitted; create a blank form.
+        form = TopicForm()
+    else:
+        # POST data submitted; process data.
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            new_topic = form.save(commit=False)
+            new_topic.owner = request.user
+            new_topic.save()
+            return HttpResponseRedirect(reverse('learning_logs:topics'))
 
-@login_required		
+    context = {'form': form}
+    return render(request, 'learning_logs/new_topic.html', context)
+
 def new_entry(request, topic_id):
 	'''add a new entry for a particular topic'''
 	topic = Topic.objects.get(id=topic_id)
@@ -85,15 +60,10 @@ def new_entry(request, topic_id):
 	context = {'topic':topic, 'form':form}
 	return render(request, 'learning_logs/new_entry.html', context)
 
-@login_required
 def edit_entry(request, entry_id):
 	'''edit an existing entry'''
 	entry = Entry.objects.get(id=entry_id)
 	topic = entry.topic
-	
-	#PROTECT THE EDIT ENTRY.
-	if topic.owner != request.user:
-		raise Http404
 	
 	if request.method != 'POST':
 		#initial request; pre-fill form with the current entry.
