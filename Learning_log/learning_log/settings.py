@@ -128,6 +128,7 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/users/login/'
 
 #settings for django-bootstrap3
+#this code spare us from having to download jquery and place it in the correct location manually.
 BOOTSTRAP3 = {
 	'include_jquery':True,
 	}
